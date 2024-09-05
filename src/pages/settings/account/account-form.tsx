@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon, CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import dayjs from 'dayjs'
+import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/custom/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -12,6 +12,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command'
 import {
   Form,
@@ -121,7 +122,7 @@ export function AccountForm() {
                       )}
                     >
                       {field.value ? (
-                        dayjs(field.value).format('MMM D, YYYY')
+                        format(field.value, 'PPP')
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -179,25 +180,27 @@ export function AccountForm() {
                     <CommandInput placeholder='Search language...' />
                     <CommandEmpty>No language found.</CommandEmpty>
                     <CommandGroup>
-                      {languages.map((language) => (
-                        <CommandItem
-                          value={language.label}
-                          key={language.value}
-                          onSelect={() => {
-                            form.setValue('language', language.value)
-                          }}
-                        >
-                          <CheckIcon
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              language.value === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          {language.label}
-                        </CommandItem>
-                      ))}
+                      <CommandList>
+                        {languages.map((language) => (
+                          <CommandItem
+                            value={language.label}
+                            key={language.value}
+                            onSelect={() => {
+                              form.setValue('language', language.value)
+                            }}
+                          >
+                            <CheckIcon
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                language.value === field.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )}
+                            />
+                            {language.label}
+                          </CommandItem>
+                        ))}
+                      </CommandList>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>

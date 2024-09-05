@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronDownIcon, CheckIcon } from '@radix-ui/react-icons'
+import { CheckIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '@/components/custom/button'
+import { Button } from '@/components/custom/button'
 import {
   Form,
   FormControl,
@@ -19,6 +18,13 @@ import { toast } from '@/components/ui/use-toast'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useTheme as useColor } from '@/components/themes/use-theme'
 import { useTheme } from '@/components/theme-provider'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const appearanceFormSchema = z.object({
   theme: z.enum(['light', 'dark'], {
@@ -42,7 +48,7 @@ const defaultValues: Partial<AppearanceFormValues> = {
 
 const colors = [
   {
-    value: 'zinc',
+    value: 'slate',
     color: '#0f172a',
   },
   {
@@ -88,22 +94,18 @@ export function AppearanceForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Font</FormLabel>
-              <div className='relative w-max'>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <select
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'w-[200px] appearance-none font-normal'
-                    )}
-                    {...field}
-                  >
-                    <option value='inter'>Inter</option>
-                    <option value='manrope'>Manrope</option>
-                    <option value='system'>System</option>
-                  </select>
+                  <SelectTrigger className='w-[200px]'>
+                    <SelectValue placeholder='select font type' />
+                  </SelectTrigger>
                 </FormControl>
-                <ChevronDownIcon className='absolute right-3 top-2.5 h-4 w-4 opacity-50' />
-              </div>
+                <SelectContent>
+                  <SelectItem value='inter'>{'Inter'}</SelectItem>
+                  <SelectItem value='manrope'>{'Manrope'}</SelectItem>
+                  <SelectItem value='system'>{'System'}</SelectItem>
+                </SelectContent>
+              </Select>
               <FormDescription>
                 Set the font you want to use in the dashboard.
               </FormDescription>
@@ -209,7 +211,7 @@ export function AppearanceForm() {
                     >
                       {!!watchColor && watchColor === item.value ? (
                         <CheckIcon
-                          className={`size-5 md:size-7 ${item.value === 'zinc' ? 'text-white' : 'text-slate-900'}`}
+                          className={`size-5 md:size-7 ${item.value === 'slate' ? 'text-white' : 'text-slate-900'}`}
                         />
                       ) : (
                         ''

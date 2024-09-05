@@ -10,11 +10,11 @@ export function ThemeSelector() {
       <Button
         size='icon'
         variant='outline'
-        className={cn('h-7 w-7', theme === 'zinc' && 'border-zinc-950')}
-        onClick={() => setTheme('zinc')}
+        className={cn('h-7 w-7', theme === 'slate' && 'border-slate-950')}
+        onClick={() => setTheme('slate')}
       >
-        <div className='aspect-square w-5 rounded-sm bg-zinc-950' />
-        <span className='sr-only'>Zinc</span>
+        <div className='aspect-square w-5 rounded-sm bg-slate-950' />
+        <span className='sr-only'>Slate</span>
       </Button>
       <Button
         size='icon'
